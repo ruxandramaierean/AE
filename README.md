@@ -20,8 +20,8 @@ Proiectul contine elemente standard pentru un site de e-commerce:
 
 1. Clonarea codului sursa
 1. Pregatirea bazei de date
-  * Baza de date folosita: [Microsoft SQL server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-  * Crearea elementelor cu scriptul sql atasat
-  * Pentru o mai usoara gestionare, am folosti [SQL Server Manager](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+	* Baza de date folosita: [Microsoft SQL server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+	* Crearea elementelor cu scriptul sql atasat
+	* Pentru o mai usoara gestionare, am folosti [SQL Server Manager](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
 1. Instalarea C# si .NET 7.0 Framework
 1. Executarea proiectului dintr-un IDE precum Visual Studio
