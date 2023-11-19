@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ProductVM>
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Product";
+    var detailsRoute = "/Product/Details/{0}";
+
+    var shoppingList = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int,int>>(SessionHelper.ShoppingCart);
+    var shoppingCount = 0;
+    // count the items, if there is a shopping list
+    if (shoppingList != null)
+        foreach(var item in shoppingList) {
+            shoppingCount += item.Value;
+        }
+
+    bool isUserAuth = (HttpContextAccessor.HttpContext.User != null) && (HttpContextAccessor.HttpContext.User.Identity != null) && HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+    var name = "";
+    if (isUserAuth) {
+        name = HttpContextAccessor.HttpContext.User.FindFirst("UserName").Value;
+    }
+
+    // price for all items in cart
+    decimal overAllPrice = 0;
+}
+
+@if(shoppingCount == 0)
+{
+<p>No plants no fun :(</p>
+}
+else
+{
+    <table id="table" class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th hidden>Product Id</th>
+                <th hidden>Image</th>
+                <th hidden>Product name</th>
+                <th hidden>Price</th>
+                <th hidden>Is in stoc</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                // Don't display items with count 0
+                @if (shoppingList[item.Id] > 0)
+                {
+                    var totalPrice = shoppingList[item.Id] * item.Price;
+                    overAllPrice += totalPrice;
+                    <tr id="@item.Id">
+                        <td hidden>@item.Id</td>
+                        <td><img style="width: auto; height: 150px;" src="~/@item.ImagePath" alt="nu exista imagine momentan" /></td>
+                        <td>@item.Name</td>
+                        <td>@item.Price €</td>
+                        <td>@shoppingList[@item.Id] Pieces</td>
+                        <td>@totalPrice Total €</td>
+                        <td hidden><input type="checkbox" checked="@item.IsAvailable" /></td>
+                        <td><a href="@string.Format(detailsRoute, item.Id)" class="btn pull-right btn-outline-info">View Details</a></td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    <p>Total to pay: @overAllPrice €</p>
+    <a class="btn btn-primary" href="/Card/PaymentWithPayPal"> Pay Now</a>
+}

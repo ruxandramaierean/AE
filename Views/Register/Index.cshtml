@@ -1,0 +1,60 @@
+@model UserVM
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10 table-round bg-light shadow">
+
+        <br />
+        <h4>New User</h4>
+        <br />
+
+        <div class="col-xl-12">
+
+            <input asp-for="Id" hidden />
+
+            <form action="/Register" method="post" enctype="multipart/form-data">
+
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-12 col-lg-12">
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-2">
+                                <label class="control-label font-weight-bold">User Name</label>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4">
+                                <input asp-for="UserName" class="form-control" /><br />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2">
+                                <label class="control-label font-weight-bold">Password</label>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4">
+                                <input asp-for="Password" class="form-control" /><br />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <a class=" btn btn-danger" style="width: 100px" asp-controller="Home" asp-action="Index"><em class="fas fa-undo-alt"></em> Cancel</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" style="width: 100px" class="btn btn-success"><em class="fas fa-save"></em> Register </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

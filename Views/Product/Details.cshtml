@@ -1,0 +1,122 @@
+﻿@model Product
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    bool isInBag = false;
+    var lstCart = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int,int>>(SessionHelper.ShoppingCart);
+    var itemCount = 0;
+    if (lstCart != null && lstCart.ContainsKey(Model.Id)) {
+        isInBag = true;
+        itemCount = lstCart[Model.Id];
+    }
+
+
+    var routeAdd = "/Product/Add/{0}";
+    routeAdd = string.Format(routeAdd, Model.Id);
+    var routeRem = "/Product/Remove/{0}";
+    routeRem = string.Format(routeRem, Model.Id);
+}
+
+    <div class="p-4 border rounded row">
+        <div class="col-12">
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>Product name</label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="Name" readonly class="form-control" />
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>Price</label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="Price" readonly class="form-control" />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>Description</label>
+                </div>
+                <div class="col-4">
+                    @Html.TextArea("Description", Model.Description, new { @class = "form-control", @readonly="readonly" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>Category</label>
+                </div>
+                <div class="col-4">
+                    <input asp-for="Category" readonly class="form-control" />
+                </div>
+            </div>
+
+            <br />
+
+
+            <div class="col-3">
+                <img src="~/@Model.ImagePath" alt="no image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
+            </div>
+
+            <br />
+
+            @if (itemCount > 0) {
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label>In Bag</label>
+                    </div>
+                    <div class="col-4">
+                        @itemCount
+                    </div>
+                </div>
+            }
+
+            <br />
+
+            @if (itemCount > 0) {
+            <form action="@routeRem" method="post">
+            <div class="form-group row">
+                <div class="col-4">
+                    <button type="submit" name="action" value="remove" value="Remove from bag"
+                        class="btn btn-danger form-control" >Remove from Bag</button>
+                </div>
+            </div>
+            </form>
+            }
+
+            <br />
+
+            <form action="@routeAdd" method="post">
+            <div class="form-group row">
+                <div class="col-4">
+                    <button type="submit" name="action" value="add" value="Add to bag"
+                        class="btn btn-primary form-control" >Add to Bag</button>
+                </div>
+            </div>
+            </form>
+
+        </div>
+
+        <br />
+
+        <div class=" col-1">
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-success">Back to List</a>
+    </div>
